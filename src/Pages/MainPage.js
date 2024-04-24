@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react"
 import styles from "./MainPage.module.css"
 import Form from 'react-bootstrap/Form'
+import { Table } from "react-bootstrap"
 
 function MainPage() {
 
     const [courses, setCourses] = useState([])
     const [classes, setClasses] = useState([])
     const [activities, setActivities] = useState([])
+    const [selectedActivity, setSelectedActivity] = useState({})
+    const [isSelectedActivity, setIsSelectedActivity ] = useState(false)
 
     const BASE_API_URL = 'http://localhost:5000/'
 
@@ -58,12 +61,28 @@ function MainPage() {
     }
 
     function handleCourseChange(e) {
-        listClassesPerCourse(parseInt(e.target.value, 10))
+        listClassesPerCourse(e.target.value)
         setActivities([])
     }
 
     function handleClassChange(e) {
-        listActivitiesPerClass(parseInt(e.target.value, 10))
+        listActivitiesPerClass(e.target.value, 10)
+    }
+
+    function handleActivityChange(e) {
+        var id = e.target.value
+        fetch(`${BASE_API_URL}activities/${id}/`, {
+            method : "GET",
+            headers : {
+                "Content-Type" : "application/json"
+            }
+        })
+        .then( (resp) => (resp.json()))
+        .then( (data) => {
+            setSelectedActivity(data)
+            setIsSelectedActivity(true)
+            console.log(data)
+        })
     }
 
     return (
@@ -87,14 +106,43 @@ function MainPage() {
                 }
             </Form.Select>
 
-            <Form.Select aria-label="Class">
+            <Form.Select onChange={handleActivityChange} aria-label="Class">
                 <option>Selecione uma atividade</option>
                 {
                     activities.map( (act) => (
-                        <option value={act.id}>{act.title}</option>
+                        <option  value={act.id}>{act.title}</option>
                     ))
                 }
             </Form.Select>
+
+            {
+                isSelectedActivity &&
+                    <>
+                        <h2>{selectedActivity.title}</h2>
+                        <p>{selectedActivity.description}</p>
+                        <Table striped bordered hover>
+                            <thead>
+                                <tr>
+                                    <th>Critério</th>
+                                    <th>Peso</th>
+                                    <th>Descrição</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    selectedActivity.criteria.map( (crit) => (
+                                        <tr>
+                                            <td>{crit.short_name}</td>
+                                            <td>{crit.weight}</td>
+                                            <td>{crit.description}</td>
+                                        </tr>
+                                    ))
+                                }
+                            </tbody>
+                        </Table>
+                    </>
+
+            }
 
         </div>
     )
