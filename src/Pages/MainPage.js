@@ -9,7 +9,9 @@ function MainPage() {
     const [classes, setClasses] = useState([])
     const [activities, setActivities] = useState([])
     const [selectedActivity, setSelectedActivity] = useState({})
-    const [isSelectedActivity, setIsSelectedActivity ] = useState(false)
+    const [isSelectedActivity, setIsSelectedActivity] = useState(false)
+    const [studentsPerClass, setStudentsPerClass] = useState([])
+    const [isSelectedStudent, setIsSelectedStudent] = useState(false)
 
     const BASE_API_URL = 'http://localhost:5000/'
 
@@ -20,6 +22,10 @@ function MainPage() {
     useEffect( () => {
         console.log(classes)
     }, [classes])
+
+    useEffect( () => {
+        console.log(studentsPerClass)
+    }, [studentsPerClass])
 
     function listCourses() {
         fetch(`${BASE_API_URL}courses/`, {
@@ -60,18 +66,9 @@ function MainPage() {
         })
     }
 
-    function handleCourseChange(e) {
-        listClassesPerCourse(e.target.value)
-        setActivities([])
-    }
-
-    function handleClassChange(e) {
-        listActivitiesPerClass(e.target.value, 10)
-    }
-
-    function handleActivityChange(e) {
-        var id = e.target.value
-        fetch(`${BASE_API_URL}activities/${id}/`, {
+    function retrieveStudentsPerClass(idClass) {
+        const selectedClass = classes.filter( (cls) => cls.id === idClass )[0]
+        fetch(`${BASE_API_URL}students/`, {
             method : "GET",
             headers : {
                 "Content-Type" : "application/json"
@@ -79,10 +76,30 @@ function MainPage() {
         })
         .then( (resp) => (resp.json()))
         .then( (data) => {
-            setSelectedActivity(data)
-            setIsSelectedActivity(true)
-            console.log(data)
+            setStudentsPerClass(data.filter( (stu) => selectedClass.students.includes(stu.id)))           
         })
+        
+    }
+
+    function handleCourseChange(e) {
+        listClassesPerCourse(e.target.value)
+        setActivities([])
+    }
+
+    function handleClassChange(e) {
+        listActivitiesPerClass(e.target.value)
+        retrieveStudentsPerClass(e.target.value)
+    }
+
+    function handleActivityChange(e) {
+        var actId = e.target.value
+        setSelectedActivity(activities.filter( (act) => act.id === actId)[0])
+        setIsSelectedActivity(true)        
+    }
+
+    function handleStudentChange(e) {
+        console.log('AAA')
+        setIsSelectedStudent(true)
     }
 
     return (
@@ -140,8 +157,28 @@ function MainPage() {
                                 }
                             </tbody>
                         </Table>
+                        <Form.Select onChange={handleStudentChange} aria-label="Class">
+                            <option>Selecione um estudante</option>
+                            {
+                                studentsPerClass.map( (stu) => (
+                                    <option  value={stu.id}>{stu.name}</option>
+                                ))
+                            }
+                        </Form.Select>
                     </>
 
+            }
+            {
+                isSelectedStudent && 
+                    <>
+                        {
+                            selectedActivity.criteria.map( (crit) => (
+                                <>
+                                    <Form.Label>{crit.short_name} - {crit.weight}</Form.Label><Form.Control size="sm" type="number" />    
+                                </>  
+                            ))
+                        }
+                    </>
             }
 
         </div>
