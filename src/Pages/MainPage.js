@@ -15,6 +15,7 @@ function MainPage() {
     const [isSelectedStudent, setIsSelectedStudent] = useState(false)
     const [selectedStudent, setSelectedStudent] = useState({})
     const [grades, setGrades] = useState([])
+    const [comments, setComments] = useState("")
 
     const BASE_API_URL = 'http://localhost:5000/'
 
@@ -140,7 +141,8 @@ function MainPage() {
         var evaluation = {
             activity_id : selectedActivity.id,
             student_id : selectedStudent.id,
-            grades : grades
+            grades : grades,
+            "comments" : comments
         }
 
         
@@ -163,7 +165,7 @@ function MainPage() {
     function handleGradeInputChange(e) {
         var newGrades = []
         for (let i = 0; i < grades.length; i++) {
-            if(grades[i].crit == e.target.id) {
+            if(grades[i].crit === e.target.id) {
                 var newGrade = {
                     crit : grades[i].crit,
                     grade : parseInt(e.target.value)
@@ -175,6 +177,10 @@ function MainPage() {
             }        
         }
         setGrades(newGrades)
+    }
+
+    function handleCommentsChange(e) {
+        setComments(e.target.value)
     }
 
     return (
@@ -256,10 +262,12 @@ function MainPage() {
                         {
                             selectedActivity.criteria.map( (crit) => (
                                 <>
-                                    <Form.Label>{crit.short_name} - {crit.weight}</Form.Label><Form.Control id={crit.short_name} onChange={handleGradeInputChange} size="sm" type="number" />    
+                                    <Form.Label>{crit.short_name} - {crit.weight}:</Form.Label><Form.Control id={crit.short_name} onChange={handleGradeInputChange} size="sm" type="number" />    
                                 </>  
                             ))                            
                         }
+                        <Form.Label>Comentários:</Form.Label>
+                        <Form.Control onChange={handleCommentsChange} value={comments} as="textarea" rows={3} />
                         <Button onClick={handleSalvarClick} variant="success">Salvar</Button>
                     </>
             }
