@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import styles from "./MainPage.module.css"
 import Form from 'react-bootstrap/Form'
 import { Table } from "react-bootstrap"
+import { Typeahead } from "react-bootstrap-typeahead"
 
 function MainPage() {
 
@@ -12,6 +13,7 @@ function MainPage() {
     const [isSelectedActivity, setIsSelectedActivity] = useState(false)
     const [studentsPerClass, setStudentsPerClass] = useState([])
     const [isSelectedStudent, setIsSelectedStudent] = useState(false)
+    const [selectedStudent, setSelectedStudent] = useState({})
 
     const BASE_API_URL = 'http://localhost:5000/'
 
@@ -76,9 +78,8 @@ function MainPage() {
         })
         .then( (resp) => (resp.json()))
         .then( (data) => {
-            setStudentsPerClass(data.filter( (stu) => selectedClass.students.includes(stu.id)))           
+            setStudentsPerClass(data.filter( (stu) => selectedClass.students.includes(stu.id)))
         })
-        
     }
 
     function handleCourseChange(e) {
@@ -98,8 +99,8 @@ function MainPage() {
     }
 
     function handleStudentChange(e) {
-        console.log('AAA')
         setIsSelectedStudent(true)
+        setSelectedStudent(e[0])
     }
 
     return (
@@ -165,6 +166,13 @@ function MainPage() {
                                 ))
                             }
                         </Form.Select>
+                        <Typeahead
+                            placeholder="Selecione um estudante"                            
+                            options={studentsPerClass}
+                            labelKey={ (option) => option.name }
+                            onChange={handleStudentChange}
+
+                        />
                     </>
 
             }
