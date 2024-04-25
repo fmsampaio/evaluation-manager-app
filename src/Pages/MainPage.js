@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import styles from "./MainPage.module.css"
 import Form from 'react-bootstrap/Form'
-import { Table } from "react-bootstrap"
+import { Button, Table } from "react-bootstrap"
 import { Typeahead } from "react-bootstrap-typeahead"
 
 function MainPage() {
@@ -14,6 +14,7 @@ function MainPage() {
     const [studentsPerClass, setStudentsPerClass] = useState([])
     const [isSelectedStudent, setIsSelectedStudent] = useState(false)
     const [selectedStudent, setSelectedStudent] = useState({})
+    const [grades, setGrades] = useState([])
 
     const BASE_API_URL = 'http://localhost:5000/'
 
@@ -28,6 +29,10 @@ function MainPage() {
     useEffect( () => {
         console.log(studentsPerClass)
     }, [studentsPerClass])
+
+    useEffect( () => {
+        console.log(grades)
+    }, [grades])
 
     function listCourses() {
         fetch(`${BASE_API_URL}courses/`, {
@@ -94,13 +99,82 @@ function MainPage() {
 
     function handleActivityChange(e) {
         var actId = e.target.value
-        setSelectedActivity(activities.filter( (act) => act.id === actId)[0])
+        var act = activities.filter( (act) => act.id === actId)[0]
+        setSelectedActivity(act)
         setIsSelectedActivity(true)        
+
+        var grades = []
+        act.criteria.map( (crit) => {
+            grades.push({
+                crit : crit.short_name,
+                grade : -1
+            })                
+        })
+        setGrades(grades)
     }
 
     function handleStudentChange(e) {
         setIsSelectedStudent(true)
         setSelectedStudent(e[0])
+    }
+
+    function updateStudentWithEval(idEval) {
+        selectedStudent.evaluations.push(idEval)
+        var patchBody = {
+            evaluations : selectedStudent.evaluations
+        }
+        fetch(`${BASE_API_URL}students/${selectedStudent.id}/`, {
+            method : "PATCH",
+            body : JSON.stringify(patchBody),
+            headers : {
+                "Content-Type" : "application/json"
+            }
+        })
+        .then( (resp) => (resp.json()))
+        .then( (data) => {
+            console.log("Avaliação salva com sucesso!")
+        })
+    }
+
+    function handleSalvarClick() {
+        var evaluation = {
+            activity_id : selectedActivity.id,
+            student_id : selectedStudent.id,
+            grades : grades
+        }
+
+        
+        fetch(`${BASE_API_URL}evaluations/`, {
+            method : "POST",
+            body : JSON.stringify(evaluation),
+            headers : {
+                "Content-Type" : "application/json"
+            }
+        })
+        .then( (resp) => (resp.json()))
+        .then( (data) => {
+            console.log(data)
+            const idEval = data.id
+            updateStudentWithEval(idEval)
+        }
+        )
+    }
+
+    function handleGradeInputChange(e) {
+        var newGrades = []
+        for (let i = 0; i < grades.length; i++) {
+            if(grades[i].crit == e.target.id) {
+                var newGrade = {
+                    crit : grades[i].crit,
+                    grade : parseInt(e.target.value)
+                }                
+                newGrades.push(newGrade)
+            }    
+            else {
+                newGrades.push(grades[i])
+            }        
+        }
+        setGrades(newGrades)
     }
 
     return (
@@ -182,10 +256,11 @@ function MainPage() {
                         {
                             selectedActivity.criteria.map( (crit) => (
                                 <>
-                                    <Form.Label>{crit.short_name} - {crit.weight}</Form.Label><Form.Control size="sm" type="number" />    
+                                    <Form.Label>{crit.short_name} - {crit.weight}</Form.Label><Form.Control id={crit.short_name} onChange={handleGradeInputChange} size="sm" type="number" />    
                                 </>  
-                            ))
+                            ))                            
                         }
+                        <Button onClick={handleSalvarClick} variant="success">Salvar</Button>
                     </>
             }
 
