@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import styles from "./MainPage.module.css"
 import { Typeahead } from "react-bootstrap-typeahead"
 import { Form } from "react-bootstrap"
@@ -19,6 +19,8 @@ function MainPage() {
     const [selectedStudent, setSelectedStudent] = useState({})
     const [grades, setGrades] = useState([])
     const [comments, setComments] = useState("")
+
+    const studentTypeAheadRef = useRef(null)
 
     const BASE_API_URL = 'http://localhost:5000/'
 
@@ -111,7 +113,7 @@ function MainPage() {
         act.criteria.map( (crit) => {
             grades.push({
                 crit : crit.short_name,
-                grade : -1
+                grade : 10
             })                
         })
         setGrades(grades)
@@ -140,6 +142,20 @@ function MainPage() {
         })
     }
 
+/*const [isSelectedStudent, setIsSelectedStudent] = useState(false)
+    const [selectedStudent, setSelectedStudent] = useState({})
+    const [grades, setGrades] = useState([])
+    const [comments, setComments] = useState("")*/
+
+
+    function resetGuiForNewStudentSelection() {
+        setIsSelectedStudent(false)
+        setSelectedStudent({})
+        setGrades([])
+        setComments("")
+        studentTypeAheadRef.current.clear()
+    }
+
     function handleSalvarClick() {
         var evaluation = {
             activity_id : selectedActivity.id,
@@ -161,6 +177,8 @@ function MainPage() {
             console.log(data)
             const idEval = data.id
             updateStudentWithEval(idEval)
+            resetGuiForNewStudentSelection()
+
         }
         )
     }
@@ -181,6 +199,7 @@ function MainPage() {
         }
         setGrades(newGrades)
     }
+
 
     function handleCommentsChange(e) {
         setComments(e.target.value)
@@ -223,7 +242,7 @@ function MainPage() {
                                     options={studentsPerClass}
                                     labelKey={ (option) => option.name }
                                     onChange={handleStudentChange}
-                                    
+                                    ref={studentTypeAheadRef}                                    
                                 />
                             </div>
                     }

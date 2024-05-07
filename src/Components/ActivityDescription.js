@@ -4,7 +4,7 @@ import { Table } from "react-bootstrap"
 function ActivityDescription( {selectedActivity, studentsPerClass, handleStudentChange} ) {
     return (
             <div className={styles.container}>
-                <h4>{selectedActivity.title}</h4>
+                <h4>{selectedActivity.title}:</h4>
                 <p>{selectedActivity.description}</p>
                 <Table striped bordered hover>
                     <thead>

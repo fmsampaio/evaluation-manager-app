@@ -12,3 +12,11 @@
 .student_type_container {
     padding: 20px
 }
+
+.container h4 {
+    text-align: left;
+}
+
+.container p {
+    text-align: left;
+}

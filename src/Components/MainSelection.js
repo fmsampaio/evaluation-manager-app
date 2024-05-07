@@ -5,7 +5,7 @@ function MainSelection( {handleCourseChange, handleClassChange, handleActivityCh
     return (
         <div className={styles.container}> 
             <h4>Selecione as informações:</h4>
-            <Form.Select onChange={handleCourseChange} aria-label="Course">
+            <Form.Select className={styles.info_selects} onChange={handleCourseChange} aria-label="Course">
                 <option>Selecione um curso</option>
                 {
                     courses.map( (course) => (
@@ -14,7 +14,7 @@ function MainSelection( {handleCourseChange, handleClassChange, handleActivityCh
                 }
             </Form.Select>
 
-            <Form.Select onChange={handleClassChange} aria-label="Class">
+            <Form.Select className={styles.info_selects} onChange={handleClassChange} aria-label="Class">
                 <option>Selecione uma turma</option>
                 {
                     classes.map( (classElem) => (
@@ -23,7 +23,7 @@ function MainSelection( {handleCourseChange, handleClassChange, handleActivityCh
                 }
             </Form.Select>
 
-            <Form.Select onChange={handleActivityChange} aria-label="Class">
+            <Form.Select className={styles.info_selects} onChange={handleActivityChange} aria-label="Class">
                 <option>Selecione uma atividade</option>
                 {
                     activities.map( (act) => (
