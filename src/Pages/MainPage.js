@@ -3,7 +3,9 @@ import styles from "./MainPage.module.css"
 import Form from 'react-bootstrap/Form'
 import { Button, Table } from "react-bootstrap"
 import { Typeahead } from "react-bootstrap-typeahead"
+
 import MainSelection from "../Components/MainSelection"
+import ActivityDescription from "../Components/ActivityDescription"
 
 function MainPage() {
 
@@ -198,41 +200,23 @@ function MainPage() {
             {
                 isSelectedActivity &&
                     <>
-                        <h2>{selectedActivity.title}</h2>
-                        <p>{selectedActivity.description}</p>
-                        <Table striped bordered hover>
-                            <thead>
-                                <tr>
-                                    <th>Critério</th>
-                                    <th>Peso</th>
-                                    <th>Descrição</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    selectedActivity.criteria.map( (crit) => (
-                                        <tr>
-                                            <td>{crit.short_name}</td>
-                                            <td>{crit.weight}</td>
-                                            <td>{crit.description}</td>
-                                        </tr>
-                                    ))
-                                }
-                            </tbody>
-                        </Table>
-                        <Typeahead
-                            placeholder="Selecione um estudante"                            
-                            options={studentsPerClass}
-                            labelKey={ (option) => option.name }
-                            onChange={handleStudentChange}
-
-                        />
-                    </>
-
+                    <ActivityDescription 
+                        handleStudentChange={handleStudentChange} 
+                        studentsPerClass={studentsPerClass}
+                        selectedActivity={selectedActivity}
+                    />
+                    <Typeahead
+                        placeholder="Selecione um estudante"                            
+                        options={studentsPerClass}
+                        labelKey={ (option) => option.name }
+                        onChange={handleStudentChange}
+                    />
+                    </>                    
             }
             {
                 isSelectedStudent && 
                     <>
+                        
                         {
                             selectedActivity.criteria.map( (crit) => (
                                 <>
