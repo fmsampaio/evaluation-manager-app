@@ -3,6 +3,7 @@ import styles from "./MainPage.module.css"
 import Form from 'react-bootstrap/Form'
 import { Button, Table } from "react-bootstrap"
 import { Typeahead } from "react-bootstrap-typeahead"
+import MainSelection from "../Components/MainSelection"
 
 function MainPage() {
 
@@ -185,33 +186,14 @@ function MainPage() {
 
     return (
         <div>
-            <h1>Gerenciador de avaliações</h1>
-            <Form.Select onChange={handleCourseChange} aria-label="Course">
-                <option>Selecione um curso</option>
-                {
-                    courses.map( (course) => (
-                        <option value={course.id}>{course.name}</option>
-                    )) 
-                }
-            </Form.Select>
-
-            <Form.Select onChange={handleClassChange} aria-label="Class">
-                <option>Selecione uma turma</option>
-                {
-                    classes.map( (classElem) => (
-                        <option value={classElem.id}>{classElem.name}</option>
-                    ))
-                }
-            </Form.Select>
-
-            <Form.Select onChange={handleActivityChange} aria-label="Class">
-                <option>Selecione uma atividade</option>
-                {
-                    activities.map( (act) => (
-                        <option  value={act.id}>{act.title}</option>
-                    ))
-                }
-            </Form.Select>
+            <MainSelection 
+                handleCourseChange={handleCourseChange}
+                handleClassChange={handleClassChange}
+                handleActivityChange={handleActivityChange}
+                courses={courses}
+                classes={classes}
+                activities={activities}
+            />
 
             {
                 isSelectedActivity &&
@@ -238,14 +220,6 @@ function MainPage() {
                                 }
                             </tbody>
                         </Table>
-                        <Form.Select onChange={handleStudentChange} aria-label="Class">
-                            <option>Selecione um estudante</option>
-                            {
-                                studentsPerClass.map( (stu) => (
-                                    <option  value={stu.id}>{stu.name}</option>
-                                ))
-                            }
-                        </Form.Select>
                         <Typeahead
                             placeholder="Selecione um estudante"                            
                             options={studentsPerClass}
