@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import styles from "./MainPage.module.css"
+import styles from "./EvaluationPage.module.css"
 import { Typeahead } from "react-bootstrap-typeahead"
 import { Form } from "react-bootstrap"
 
@@ -7,7 +7,7 @@ import MainSelection from "../Components/MainSelection"
 import ActivityDescription from "../Components/ActivityDescription"
 import EvaluationForm from "../Components/EvaluationForm"
 
-function MainPage() {
+function EvaluationPage() {
 
     const [courses, setCourses] = useState([])
     const [classes, setClasses] = useState([])
@@ -262,4 +262,4 @@ function MainPage() {
     )
 }
 
-export default MainPage
+export default EvaluationPage
