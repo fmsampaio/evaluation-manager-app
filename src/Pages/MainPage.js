@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react"
 import styles from "./MainPage.module.css"
-import Form from 'react-bootstrap/Form'
-import { Button, Table } from "react-bootstrap"
 import { Typeahead } from "react-bootstrap-typeahead"
 
 import MainSelection from "../Components/MainSelection"
 import ActivityDescription from "../Components/ActivityDescription"
+import EvaluationForm from "../Components/EvaluationForm"
 
 function MainPage() {
 
@@ -215,19 +214,13 @@ function MainPage() {
             }
             {
                 isSelectedStudent && 
-                    <>
-                        
-                        {
-                            selectedActivity.criteria.map( (crit) => (
-                                <>
-                                    <Form.Label>{crit.short_name} - {crit.weight}:</Form.Label><Form.Control id={crit.short_name} onChange={handleGradeInputChange} size="sm" type="number" />    
-                                </>  
-                            ))                            
-                        }
-                        <Form.Label>Comentários:</Form.Label>
-                        <Form.Control onChange={handleCommentsChange} value={comments} as="textarea" rows={3} />
-                        <Button onClick={handleSalvarClick} variant="success">Salvar</Button>
-                    </>
+                    <EvaluationForm 
+                        comments={comments}
+                        handleCommentsChange={handleCommentsChange}
+                        handleSalvarClick={handleSalvarClick}
+                        handleGradeInputChange={handleGradeInputChange}
+                        selectedActivity={selectedActivity}
+                    />
             }
 
         </div>

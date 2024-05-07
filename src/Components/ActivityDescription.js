@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react"
 import styles from "./ActivityDescription.module.css"
-import Typeahead from "react-bootstrap-typeahead/types/core/Typeahead"
 import { Table } from "react-bootstrap"
 
 function ActivityDescription( {selectedActivity, studentsPerClass, handleStudentChange} ) {

@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react"
 import styles from "./MainSelection.module.css"
 import Form from 'react-bootstrap/Form'
 
