@@ -3,8 +3,8 @@ import { Table } from "react-bootstrap"
 
 function ActivityDescription( {selectedActivity, studentsPerClass, handleStudentChange} ) {
     return (
-            <>
-                <h2>{selectedActivity.title}</h2>
+            <div className={styles.container}>
+                <h4>{selectedActivity.title}</h4>
                 <p>{selectedActivity.description}</p>
                 <Table striped bordered hover>
                     <thead>
@@ -26,7 +26,7 @@ function ActivityDescription( {selectedActivity, studentsPerClass, handleStudent
                         }
                     </tbody>
                 </Table>
-            </>
+            </div>
     )
 }
 

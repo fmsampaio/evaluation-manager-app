@@ -1,0 +1,20 @@
+.container {
+    padding: 20px;
+}
+
+.crit_container {
+    display: flex;
+    padding: 5px;
+    flex-direction: row;
+    vertical-align: middle;
+    width: 200px;
+}
+
+label {
+    width: 150px;
+    margin-top: 0.5rem;
+}
+
+button {
+    margin: 10px;
+}

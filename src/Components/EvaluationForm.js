@@ -4,19 +4,19 @@ import { Button } from 'react-bootstrap'
 
 function EvaluationForm( { handleCommentsChange, handleSalvarClick, handleGradeInputChange, selectedActivity, comments } ) {
     return (
-        <>
-                        
+        <div className={styles.container}>
+            <h4>Avaliação:</h4>            
             {
                 selectedActivity.criteria.map( (crit) => (
-                    <>
-                        <Form.Label>{crit.short_name} - {crit.weight}:</Form.Label><Form.Control id={crit.short_name} onChange={handleGradeInputChange} size="sm" type="number" />    
-                    </>  
+                    <div className={styles.crit_container}>
+                        <Form.Label className={styles.crit_label}><strong>{crit.short_name} - {crit.weight}:</strong></Form.Label><Form.Control id={crit.short_name} onChange={handleGradeInputChange} defaultValue={'10'} size="sm" type="number" />    
+                    </div>  
                 ))                            
             }
-            <Form.Label>Comentários:</Form.Label>
+            <Form.Label><strong>Comentários:</strong></Form.Label>
             <Form.Control onChange={handleCommentsChange} value={comments} as="textarea" rows={3} />
             <Button onClick={handleSalvarClick} variant="success">Salvar</Button>
-        </>
+        </div>
     )
 }
 

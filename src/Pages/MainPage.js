@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import styles from "./MainPage.module.css"
 import { Typeahead } from "react-bootstrap-typeahead"
+import { Form } from "react-bootstrap"
 
 import MainSelection from "../Components/MainSelection"
 import ActivityDescription from "../Components/ActivityDescription"
@@ -186,44 +187,59 @@ function MainPage() {
     }
 
     return (
-        <div>
-            <MainSelection 
-                handleCourseChange={handleCourseChange}
-                handleClassChange={handleClassChange}
-                handleActivityChange={handleActivityChange}
-                courses={courses}
-                classes={classes}
-                activities={activities}
-            />
+        <>
+            <h1>Gerenciador de avaliações</h1>
+            <div className={styles.container}>
+                
+                <div className={styles.side_container}>
+                    <MainSelection 
+                        handleCourseChange={handleCourseChange}
+                        handleClassChange={handleClassChange}
+                        handleActivityChange={handleActivityChange}
+                        courses={courses}
+                        classes={classes}
+                        activities={activities}
+                    />
 
-            {
-                isSelectedActivity &&
-                    <>
-                    <ActivityDescription 
-                        handleStudentChange={handleStudentChange} 
-                        studentsPerClass={studentsPerClass}
-                        selectedActivity={selectedActivity}
-                    />
-                    <Typeahead
-                        placeholder="Selecione um estudante"                            
-                        options={studentsPerClass}
-                        labelKey={ (option) => option.name }
-                        onChange={handleStudentChange}
-                    />
-                    </>                    
-            }
-            {
-                isSelectedStudent && 
-                    <EvaluationForm 
-                        comments={comments}
-                        handleCommentsChange={handleCommentsChange}
-                        handleSalvarClick={handleSalvarClick}
-                        handleGradeInputChange={handleGradeInputChange}
-                        selectedActivity={selectedActivity}
-                    />
-            }
-
-        </div>
+                    {
+                        isSelectedActivity &&
+                            <>
+                                <ActivityDescription 
+                                    handleStudentChange={handleStudentChange} 
+                                    studentsPerClass={studentsPerClass}
+                                    selectedActivity={selectedActivity}
+                                />
+                                
+                            </>                    
+                    }
+                </div>
+                <div className={styles.side_container}>
+                    {
+                        isSelectedActivity &&
+                            <div className={styles.student_type_container}>
+                                <h4>Selecione um estudante:</h4>
+                                <Typeahead
+                                    placeholder="Nome do estudante"                            
+                                    options={studentsPerClass}
+                                    labelKey={ (option) => option.name }
+                                    onChange={handleStudentChange}
+                                    
+                                />
+                            </div>
+                    }
+                    {
+                        isSelectedStudent && 
+                            <EvaluationForm 
+                                comments={comments}
+                                handleCommentsChange={handleCommentsChange}
+                                handleSalvarClick={handleSalvarClick}
+                                handleGradeInputChange={handleGradeInputChange}
+                                selectedActivity={selectedActivity}
+                            />
+                    }
+                </div>
+            </div>
+        </>
     )
 }
 

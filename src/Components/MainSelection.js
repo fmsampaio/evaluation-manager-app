@@ -3,8 +3,8 @@ import Form from 'react-bootstrap/Form'
 
 function MainSelection( {handleCourseChange, handleClassChange, handleActivityChange, courses, classes, activities} ) {
     return (
-        <> 
-            <h1>Gerenciador de avaliações</h1>
+        <div className={styles.container}> 
+            <h4>Selecione as informações:</h4>
             <Form.Select onChange={handleCourseChange} aria-label="Course">
                 <option>Selecione um curso</option>
                 {
@@ -31,7 +31,7 @@ function MainSelection( {handleCourseChange, handleClassChange, handleActivityCh
                     ))
                 }
             </Form.Select>
-        </>
+        </div>
     )
 }
 
