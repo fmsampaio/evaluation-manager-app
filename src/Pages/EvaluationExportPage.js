@@ -1,21 +1,26 @@
 import { useEffect, useState } from 'react'
 import styles from './EvaluationExportPage.module.css'
 import { Typeahead } from 'react-bootstrap-typeahead'
+import ActivityDescription from '../Components/ActivityDescription'
 
 function EvaluationExportPage() {
 
     const [students, setStudents] = useState([])
+    const [activities, setActivities] = useState([])
+    const [evaluations, setEvaluations] = useState([])
     const [isSelectedStudent, setIsSelectedStudent] = useState(false)
     const [selectedStudent, setSelectedStudent] = useState({})
 
     const BASE_API_URL = 'http://localhost:5000/'
 
     useEffect( () => {
-        listStudents()
+        list('students')
+        list('activities')
+        list('evaluations')
     }, [])
 
-    function listStudents() {
-        fetch(`${BASE_API_URL}students/`, {
+    function list(resource) {
+        fetch(`${BASE_API_URL}${resource}/`, {
             method : 'GET',
             headers : {
                 'Content-Type' : 'application/json'
@@ -23,13 +28,44 @@ function EvaluationExportPage() {
         })
         .then( (resp) => resp.json() )
         .then( (data) => { 
-            setStudents(data)
+            if(resource === 'students') {
+                setStudents(data)
+            }
+            else if(resource === 'activities') {
+                setActivities(data)
+            }
+            else if(resource === 'evaluations') {
+                setEvaluations(data)
+            }
         })
     }
 
+
+
     function handleStudentChange(e) {
-        setSelectedStudent(e[0])
-        setIsSelectedStudent(true)
+        if(e.length === 0) {
+            setSelectedStudent({})
+            setIsSelectedStudent(false)
+        }
+        else {
+            setSelectedStudent(e[0])
+            setIsSelectedStudent(true)
+        }
+    }
+
+
+    function generateEvaluationReport(evalId) {
+        var evaluation = evaluations.filter( (ev) => ev.id === evalId )[0]
+        var activity = activities.filter( (act) => act.id === evaluation.activity_id )[0]
+        console.log(evaluation)
+        console.log(activity)
+        return (
+            <div className={styles.report_container}>
+                <ActivityDescription
+                    selectedActivity={activity}
+                />
+            </div>
+        )
     }
 
     return (
@@ -47,7 +83,10 @@ function EvaluationExportPage() {
                 }
                 {
                     isSelectedStudent &&
-                    <p>{JSON.stringify(selectedStudent)}</p>
+                    
+                        selectedStudent.evaluations.map( (evalId) => (
+                            generateEvaluationReport(evalId)
+                        ))
                 }
 
             </div>

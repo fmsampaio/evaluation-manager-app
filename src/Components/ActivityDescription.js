@@ -1,7 +1,7 @@
 import styles from "./ActivityDescription.module.css"
 import { Table } from "react-bootstrap"
 
-function ActivityDescription( {selectedActivity, studentsPerClass, handleStudentChange} ) {
+function ActivityDescription( {selectedActivity} ) {
     return (
             <div className={styles.container}>
                 <h4>{selectedActivity.title}:</h4>
