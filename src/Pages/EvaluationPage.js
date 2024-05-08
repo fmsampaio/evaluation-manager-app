@@ -102,12 +102,7 @@ function EvaluationPage() {
         retrieveStudentsPerClass(e.target.value)
     }
 
-    function handleActivityChange(e) {
-        var actId = e.target.value
-        var act = activities.filter( (act) => act.id === actId)[0]
-        setSelectedActivity(act)
-        setIsSelectedActivity(true)        
-
+    function resetGrades(act) {
         var grades = []
         act.criteria.map( (crit) => {
             grades.push({
@@ -116,6 +111,14 @@ function EvaluationPage() {
             })                
         })
         setGrades(grades)
+    }
+
+    function handleActivityChange(e) {
+        var actId = e.target.value
+        var act = activities.filter( (act) => act.id === actId)[0]
+        setSelectedActivity(act)
+        setIsSelectedActivity(true)        
+        resetGrades(act)        
     }
 
     function handleStudentChange(e) {
@@ -159,12 +162,6 @@ function EvaluationPage() {
         })
     }
 
-/*const [isSelectedStudent, setIsSelectedStudent] = useState(false)
-    const [selectedStudent, setSelectedStudent] = useState({})
-    const [grades, setGrades] = useState([])
-    const [comments, setComments] = useState("")*/
-
-
     function resetGuiForNewStudentSelection() {
         setIsSelectedStudent(false)
         setSelectedStudent({})
@@ -196,6 +193,7 @@ function EvaluationPage() {
             updateStudentWithEval(idEval)
             updateActivityWithEval(idEval)
             resetGuiForNewStudentSelection()
+            resetGrades(selectedActivity)
         }
         )
     }
