@@ -137,7 +137,25 @@ function EvaluationPage() {
         })
         .then( (resp) => (resp.json()))
         .then( (data) => {
-            console.log("Avaliação salva com sucesso!")
+            console.log("[INFO] Avaliação atualizada na rota students!")
+        })
+    }
+
+    function updateActivityWithEval(idEval) {
+        selectedActivity.evaluations.push(idEval)
+        var patchBody = {
+            evaluations : selectedActivity.evaluations
+        }
+        fetch(`${BASE_API_URL}activities/${selectedActivity.id}/`, {
+            method : "PATCH",
+            body : JSON.stringify(patchBody),
+            headers : {
+                "Content-Type" : "application/json"
+            }
+        })
+        .then( (resp) => (resp.json()))
+        .then( (data) => {
+            console.log("[INFO] Avaliação atualizada na rota activities!")
         })
     }
 
@@ -176,8 +194,8 @@ function EvaluationPage() {
             console.log(data)
             const idEval = data.id
             updateStudentWithEval(idEval)
+            updateActivityWithEval(idEval)
             resetGuiForNewStudentSelection()
-
         }
         )
     }
