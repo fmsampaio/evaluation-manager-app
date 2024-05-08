@@ -238,8 +238,7 @@ function EvaluationPage() {
                         isSelectedActivity &&
                             <>
                                 <ActivityDescription 
-                                    handleStudentChange={handleStudentChange} 
-                                    studentsPerClass={studentsPerClass}
+                                    includesGrade={false}
                                     selectedActivity={selectedActivity}
                                 />
                                 

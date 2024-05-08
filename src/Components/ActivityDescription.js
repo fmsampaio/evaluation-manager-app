@@ -1,7 +1,7 @@
 import styles from "./ActivityDescription.module.css"
 import { Table } from "react-bootstrap"
 
-function ActivityDescription( {selectedActivity} ) {
+function ActivityDescription( {selectedActivity, includesGrade, grades} ) {
     return (
             <div className={styles.container}>
                 <h4>{selectedActivity.title}:</h4>
@@ -12,6 +12,9 @@ function ActivityDescription( {selectedActivity} ) {
                             <th>Critério</th>
                             <th>Peso</th>
                             <th>Descrição</th>
+                            {includesGrade && 
+                                <th>Nota</th>
+                            }
                         </tr>
                     </thead>
                     <tbody>
@@ -21,6 +24,9 @@ function ActivityDescription( {selectedActivity} ) {
                                     <td>{crit.short_name}</td>
                                     <td>{crit.weight}</td>
                                     <td>{crit.description}</td>
+                                    {includesGrade &&
+                                        <td>XXX</td>
+                                    }
                                 </tr>
                             ))
                         }

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import styles from './EvaluationExportPage.module.css'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import ActivityDescription from '../Components/ActivityDescription'
+import EvaluationReport from '../Components/EvaluationReport'
 
 function EvaluationExportPage() {
 
@@ -57,12 +58,11 @@ function EvaluationExportPage() {
     function generateEvaluationReport(evalId) {
         var evaluation = evaluations.filter( (ev) => ev.id === evalId )[0]
         var activity = activities.filter( (act) => act.id === evaluation.activity_id )[0]
-        console.log(evaluation)
-        console.log(activity)
+
         return (
             <div className={styles.report_container}>
-                <ActivityDescription
-                    selectedActivity={activity}
+                <EvaluationReport
+                    activity={activity}
                 />
             </div>
         )

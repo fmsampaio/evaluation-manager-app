@@ -6,6 +6,7 @@ function EvaluationReport( {activity} ) {
         <div>
             <ActivityDescription
                 selectedActivity={activity}
+                includesGrade={true}
             />
         </div>
     )
