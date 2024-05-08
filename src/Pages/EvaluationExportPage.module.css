@@ -1,0 +1,11 @@
+.container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+.typeahead_container {
+    width: 60%;
+    align-self: center;
+}
