@@ -5,6 +5,7 @@ import EvaluationViewPage from './Pages/EvaluationViewPage';
 import NoPage from './Pages/NoPage';
 import HomePage from './Pages/HomePage';
 import Layout from './Pages/Layout';
+import EvaluationExportPage from './Pages/EvaluationExportPage';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="evaluate" element={<EvaluationPage/>} />
           <Route path="view" element={<EvaluationViewPage/>} />
+          <Route path="export" element={<EvaluationExportPage />} />  
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>

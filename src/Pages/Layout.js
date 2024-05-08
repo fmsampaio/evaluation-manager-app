@@ -15,6 +15,9 @@ const Layout = () => {
           <li>
             <Link to="/view">Visualizar avaliações</Link>
           </li>
+          <li>
+            <Link to="/export">Exportar avaliações</Link>
+          </li>
         </ul>
       </nav>
 
