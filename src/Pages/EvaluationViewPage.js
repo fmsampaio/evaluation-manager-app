@@ -121,7 +121,7 @@ function EvaluationViewPage() {
 
     return (
         <>
-            <h1>Visualização de avaliações</h1>
+            <h1>Visualizar avaliações</h1>
             <div className={styles.container}>
                 <div className={styles.left_container}>
                     <MainSelection 

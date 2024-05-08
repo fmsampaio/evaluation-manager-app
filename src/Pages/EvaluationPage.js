@@ -221,7 +221,7 @@ function EvaluationPage() {
 
     return (
         <>
-            <h1>Gerenciador de avaliações</h1>
+            <h1>Realizar avaliações</h1>
             <div className={styles.container}>
                 
                 <div className={styles.side_container}>

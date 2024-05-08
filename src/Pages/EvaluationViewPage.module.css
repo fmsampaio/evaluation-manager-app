@@ -8,4 +8,5 @@
 
 .right_cotainer {
     max-width: 80%;
+    justify-content: center;
 }
