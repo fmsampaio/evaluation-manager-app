@@ -199,12 +199,23 @@ function EvaluationPage() {
     }
 
     function handleGradeInputChange(e) {
+        var intGrade = parseInt(e.target.value)
+
+        if(intGrade < 0) {
+            e.target.value = "0"
+            intGrade = 0
+        }
+        if(intGrade > 10) {
+            e.target.value = "10"
+            intGrade = 10
+        }
+        
         var newGrades = []
         for (let i = 0; i < grades.length; i++) {
             if(grades[i].crit === e.target.id) {
                 var newGrade = {
                     crit : grades[i].crit,
-                    grade : parseInt(e.target.value)
+                    grade : intGrade
                 }                
                 newGrades.push(newGrade)
             }    

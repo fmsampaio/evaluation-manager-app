@@ -2,6 +2,8 @@ import styles from './EvaluationForm.module.css'
 import Form from 'react-bootstrap/Form'
 import { Button } from 'react-bootstrap'
 
+
+
 function EvaluationForm( { handleCommentsChange, handleSalvarClick, handleGradeInputChange, selectedActivity, comments } ) {
     return (
         <div className={styles.container}>
