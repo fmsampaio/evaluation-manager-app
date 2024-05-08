@@ -3,9 +3,9 @@
 }
 
 .left_container {
-    width: 25%;
+    min-width: 20%;
 }
 
 .right_cotainer {
-    width: 75%;
+    max-width: 80%;
 }

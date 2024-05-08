@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import styles from "./EvaluationViewPage.module.css"
 import MainSelection from "../Components/MainSelection"
+import EvaluationViewTable from "../Components/EvaluationViewTable"
 
 
 function EvaluationViewPage() {
@@ -10,6 +11,7 @@ function EvaluationViewPage() {
     const [selectedActivity, setSelectedActivity] = useState({})
     const [isSelectedActivity, setIsSelectedActivity] = useState(false)
     const [studentsPerClass, setStudentsPerClass] = useState([])
+    const [evaluationsTableInfo, setEvaluationsTableInfo] = useState([])
 
     const BASE_API_URL = 'http://localhost:5000/'
 
@@ -71,6 +73,32 @@ function EvaluationViewPage() {
         })
     }
 
+    function listEvaluationsTableInfo(act) {
+        fetch(`${BASE_API_URL}evaluations/`, {
+            method : 'GET',
+            headers : {
+                'Content-Type' : 'application/json'
+            }
+        })
+        .then( (resp) => (
+            resp.json()
+        ))
+        .then( (data) => {
+            var evaluationsForTable = []
+            studentsPerClass.map( (stu) => {
+                var evals = data.filter( (evalu) => evalu.student_id === stu.id && evalu.activity_id === act.id )
+                var stuEval = evals[evals.length-1]
+
+                var tableRowInfo = {
+                    student : stu,
+                    eval : stuEval
+                }
+                evaluationsForTable.push(tableRowInfo)
+            })
+            setEvaluationsTableInfo(evaluationsForTable)
+        })
+    }
+
     function handleCourseChange(e) {
         listClassesPerCourse(e.target.value)
         setActivities([])
@@ -86,7 +114,11 @@ function EvaluationViewPage() {
         var act = activities.filter( (act) => act.id === actId)[0]
         setSelectedActivity(act)
         setIsSelectedActivity(true)
+        listEvaluationsTableInfo(act)
     }
+
+    
+
     return (
         <>
             <h1>Visualização de avaliações</h1>
@@ -102,7 +134,13 @@ function EvaluationViewPage() {
                     />
                 </div>
                 <div className={styles.right_container}>
-
+                    {isSelectedActivity &&
+                        <EvaluationViewTable 
+                            activity={selectedActivity}
+                            students={studentsPerClass}
+                            tableInfo={evaluationsTableInfo}
+                        />
+                    }
                 </div>
             </div>
         </>

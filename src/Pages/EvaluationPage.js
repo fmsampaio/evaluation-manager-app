@@ -27,18 +27,6 @@ function EvaluationPage() {
         listCourses()
     }, [])
 
-    useEffect( () => {
-        console.log(classes)
-    }, [classes])
-
-    useEffect( () => {
-        console.log(studentsPerClass)
-    }, [studentsPerClass])
-
-    useEffect( () => {
-        console.log(grades)
-    }, [grades])
-
     function listCourses() {
         fetch(`${BASE_API_URL}courses/`, {
             method : "GET",
