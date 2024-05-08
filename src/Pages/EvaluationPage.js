@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import styles from "./EvaluationPage.module.css"
 import { Typeahead } from "react-bootstrap-typeahead"
-import { Form } from "react-bootstrap"
 
 import MainSelection from "../Components/MainSelection"
 import ActivityDescription from "../Components/ActivityDescription"
