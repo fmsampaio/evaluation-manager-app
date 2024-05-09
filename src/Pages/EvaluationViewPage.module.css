@@ -6,7 +6,12 @@
     min-width: 20%;
 }
 
-.right_cotainer {
+.right_container {
     max-width: 80%;
+    justify-content: center;
+}
+
+.btns_container {
+    display: flex;
     justify-content: center;
 }

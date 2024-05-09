@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import styles from "./EvaluationViewPage.module.css"
 import MainSelection from "../Components/MainSelection"
 import EvaluationViewTable from "../Components/EvaluationViewTable"
+import { Button, OverlayTrigger, Tooltip } from "react-bootstrap"
 
 
 function EvaluationViewPage() {
@@ -14,6 +15,8 @@ function EvaluationViewPage() {
     const [evaluationsTableInfo, setEvaluationsTableInfo] = useState([])
 
     const BASE_API_URL = 'http://localhost:5000/'
+
+    const [showToolTip, setShowToolTip] = useState(false);
 
     useEffect( () => {
         listCourses()
@@ -117,7 +120,53 @@ function EvaluationViewPage() {
         listEvaluationsTableInfo(act)
     }
 
-    
+    function handleCopyBtnOnClick(e) {
+        var output = ''
+
+        /*selectedActivity.criteria.map( (crit) => {
+            output += crit.short_name + ';'
+        })
+        output += 'Nota\n'*/
+
+        evaluationsTableInfo.map( (info) => {
+            var evaluation = info.eval
+            if(evaluation === undefined) {
+                selectedActivity.criteria.map( (crit) => {
+                    output += ';'
+                })
+                output += ';'
+            }
+            else {
+                var finalGrade = 0.0;
+                for (let id = 0; id < selectedActivity.criteria.length; id++) {
+                    const critWeight = selectedActivity.criteria[id].weight;
+                    const critGrade = evaluation.grades[id].grade;
+                    finalGrade += (critWeight * critGrade);                
+                }
+                
+                evaluation.grades.map( (grade) => {
+                    output += grade.grade + ';'
+                })
+                output += finalGrade.toFixed(1).replace('.',',')
+            }
+            output += '\n'    
+        })
+        //console.log(output)
+        navigator.clipboard.writeText(output)
+        setShowToolTip(true);
+    }
+
+    const renderTooltip = props => (
+        <Tooltip {...props}>Dados copiados!</Tooltip>
+    )
+
+    const handleToolTipToggle = (show) => { 
+        if (show) { 
+            setTimeout(() => { 
+                setShowToolTip(false); 
+            }, 1000);
+        } 
+    }
 
     return (
         <>
@@ -132,12 +181,18 @@ function EvaluationViewPage() {
                         classes={classes}
                         activities={activities}
                     />
+                    {isSelectedActivity &&
+                        <div className={styles.btns_container}>
+                            <OverlayTrigger placement="top" overlay={renderTooltip} show={showToolTip} onToggle={handleToolTipToggle}>
+                                <Button onClick={handleCopyBtnOnClick}>Copiar notas</Button>                        
+                            </OverlayTrigger>
+                        </div>
+                    }
                 </div>
                 <div className={styles.right_container}>
                     {isSelectedActivity &&
                         <EvaluationViewTable 
                             activity={selectedActivity}
-                            students={studentsPerClass}
                             tableInfo={evaluationsTableInfo}
                         />
                     }

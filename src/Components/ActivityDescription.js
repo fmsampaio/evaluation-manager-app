@@ -20,7 +20,7 @@ function ActivityDescription( {activity, includesGrade, grades, comments} ) {
                     <p><strong>Descrição:</strong> {activity.description}</p>
                 }
                 {activity.url !== "" &&
-                    <p><strong><a href={activity.url} target="_blank">URL da Atividade</a> </strong></p>
+                    <p><strong><a href={activity.url} target="_blank" rel="noreferrer">URL da Atividade</a> </strong></p>
                 }
                 <Table striped bordered>
                     <thead>

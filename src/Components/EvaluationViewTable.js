@@ -1,7 +1,7 @@
 import { Table } from "react-bootstrap"
 import styles from './EvaluationViewTable.module.css'
 
-function EvaluationViewTable( {activity, tableInfo, students}  ) {
+function EvaluationViewTable( {activity, tableInfo}  ) {
 
     function getGradesForTable(evalu) {
         if(evalu === undefined) {
