@@ -12,7 +12,7 @@ function EvaluationViewTable( {activity, tableInfo, students}  ) {
                         <td></td>
                     ))
                 }
-                <td></td>
+                <td  className="table-success"></td>
                 </>
             )
         }
@@ -30,7 +30,7 @@ function EvaluationViewTable( {activity, tableInfo, students}  ) {
                         <td>{grade.grade}</td>
                     ))
                 }
-                <td>{finalGrade}</td>
+                <td className="table-success">{finalGrade.toFixed(1)}</td>
                 </>
             )
         }
@@ -38,17 +38,16 @@ function EvaluationViewTable( {activity, tableInfo, students}  ) {
 
     function getTableHeader() {
         return (
-            <thead>
+            <thead className="thead-dark">
                 <tr>
-                    <th>Nome</th>
-                    <th>Matrícula</th>
+                    <th className="text-center">Nome</th>
+                    <th className="text-center">Matrícula</th>
                     {
                         activity.criteria.map( (crit) => (
-                            <th>{crit.short_name} ({crit.weight*100}%)</th>
+                            <th className="text-center">{crit.short_name} ({crit.weight*100}%)</th>
                         ))
                     }
-                    <th>Nota</th>
-                    <th>Comentários</th>
+                    <th className="text-center table-success">Nota</th>
                 </tr>
             </thead>
         )
@@ -67,7 +66,6 @@ function EvaluationViewTable( {activity, tableInfo, students}  ) {
                             <td>{info.student.name}</td>
                             <td>{info.student.code}</td>
                             {getGradesForTable(info.eval)}
-                            <td></td>
                         </tr>
                     ))
                     }

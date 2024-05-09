@@ -239,7 +239,7 @@ function EvaluationPage() {
                             <>
                                 <ActivityDescription 
                                     includesGrade={false}
-                                    selectedActivity={selectedActivity}
+                                    activity={selectedActivity}
                                 />
                                 
                             </>                    
