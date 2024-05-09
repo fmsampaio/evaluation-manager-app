@@ -59,14 +59,13 @@ function EvaluationExportPage() {
         var activity = activities.filter( (act) => act.id === evaluation.activity_id )[0]
 
         return (
-            <div className={styles.report_container}>
+            
                 <ActivityDescription
                     activity={activity}
                     grades={evaluation.grades}
                     includesGrade={true}
                     comments={evaluation.comments}
                 />
-            </div>
         )
     }
 
@@ -85,10 +84,16 @@ function EvaluationExportPage() {
                 }
                 {
                     isSelectedStudent &&
-                    
-                        selectedStudent.evaluations.map( (evalId) => (
-                            generateEvaluationReport(evalId)
-                        ))
+                        <div className={styles.report_container}>
+                            {selectedStudent.evaluations.length === 0 
+                                ?
+                                    <p><strong>Não foram encontradas avaliações realizadas para este estudante!</strong></p>
+                                :                    
+                                    selectedStudent.evaluations.map( (evalId) => (
+                                        generateEvaluationReport(evalId)
+                                    ))
+                            }
+                        </div>
                 }
 
             </div>
