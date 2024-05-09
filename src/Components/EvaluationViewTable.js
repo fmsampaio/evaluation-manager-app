@@ -30,7 +30,7 @@ function EvaluationViewTable( {activity, tableInfo, students}  ) {
                         <td>{grade.grade}</td>
                     ))
                 }
-                <td className="table-success">{finalGrade.toFixed(1)}</td>
+                <td className="table-success">{finalGrade.toFixed(1).replace('.',',')}</td>
                 </>
             )
         }

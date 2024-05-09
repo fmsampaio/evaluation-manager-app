@@ -15,7 +15,7 @@ function ActivityDescription( {activity, includesGrade, grades, comments} ) {
 
     return (
             <div className={styles.container}>
-                <h4>{activity.title}:</h4><br/>
+                <h4>{activity.title}</h4><br/>
                 {activity.description !== "" &&
                     <p><strong>Descrição:</strong> {activity.description}</p>
                 }
@@ -51,7 +51,7 @@ function ActivityDescription( {activity, includesGrade, grades, comments} ) {
                 {includesGrade &&
                     <>
                         <p><strong>Comentários:</strong> {comments} </p>
-                        <p><strong>Nota final:</strong> {calculateFinalGrade().toFixed(1) }</p>
+                        <p><strong>Nota final:</strong> {calculateFinalGrade().toFixed(1).replace('.',',') }</p>
                     </>
                 }
             </div>
