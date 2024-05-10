@@ -78,7 +78,7 @@ function EvaluationExportPage() {
                         className={styles.typeahead_container}
                         placeholder="Nome do estudante"                            
                         options={students}
-                        labelKey={ (option) => option.name }
+                        labelKey={ (option) => `${option.name} (${option.evaluations.length})` }
                         onChange={handleStudentChange}                                   
                     />
                 }
