@@ -17,6 +17,7 @@ function EvaluationViewPage() {
     const BASE_API_URL = 'http://localhost:5000/'
 
     const [showToolTip, setShowToolTip] = useState(false);
+    const [showAllToolTip, setShowAllToolTip] = useState(false);
 
     useEffect( () => {
         listCourses()
@@ -120,13 +121,8 @@ function EvaluationViewPage() {
         listEvaluationsTableInfo(act)
     }
 
-    function handleCopyBtnOnClick(e) {
+    function handleCopyAllBtnOnClick(e) {
         var output = ''
-
-        /*selectedActivity.criteria.map( (crit) => {
-            output += crit.short_name + ';'
-        })
-        output += 'Nota\n'*/
 
         evaluationsTableInfo.map( (info) => {
             var evaluation = info.eval
@@ -151,7 +147,26 @@ function EvaluationViewPage() {
             }
             output += '\n'    
         })
-        //console.log(output)
+        navigator.clipboard.writeText(output)
+        setShowAllToolTip(true);
+    }
+
+    function handleCopyFinalBtnOnClick(e) {
+        var output = ''
+
+        evaluationsTableInfo.map( (info) => {
+            var evaluation = info.eval
+            if(evaluation !== undefined) {
+                var finalGrade = 0.0;
+                for (let id = 0; id < selectedActivity.criteria.length; id++) {
+                    const critWeight = selectedActivity.criteria[id].weight;
+                    const critGrade = evaluation.grades[id].grade;
+                    finalGrade += (critWeight * critGrade);                
+                }
+                output += finalGrade.toFixed(1).replace('.',',')
+            }
+            output += '\n'    
+        })
         navigator.clipboard.writeText(output)
         setShowToolTip(true);
     }
@@ -159,6 +174,14 @@ function EvaluationViewPage() {
     const renderTooltip = props => (
         <Tooltip {...props}>Dados copiados!</Tooltip>
     )
+
+    const handleAllToolTipToggle = (show) => { 
+        if (show) { 
+            setTimeout(() => { 
+                setShowAllToolTip(false); 
+            }, 1000);
+        } 
+    }
 
     const handleToolTipToggle = (show) => { 
         if (show) { 
@@ -183,8 +206,11 @@ function EvaluationViewPage() {
                     />
                     {isSelectedActivity &&
                         <div className={styles.btns_container}>
+                            <OverlayTrigger placement="top" overlay={renderTooltip} show={showAllToolTip} onToggle={handleAllToolTipToggle}>
+                                <Button onClick={handleCopyAllBtnOnClick}>Copiar todas</Button>                        
+                            </OverlayTrigger>
                             <OverlayTrigger placement="top" overlay={renderTooltip} show={showToolTip} onToggle={handleToolTipToggle}>
-                                <Button onClick={handleCopyBtnOnClick}>Copiar notas</Button>                        
+                                <Button onClick={handleCopyFinalBtnOnClick}>Copiar finais</Button>                        
                             </OverlayTrigger>
                         </div>
                     }
