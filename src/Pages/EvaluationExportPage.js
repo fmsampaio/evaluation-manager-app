@@ -29,6 +29,11 @@ function EvaluationExportPage() {
         .then( (resp) => resp.json() )
         .then( (data) => { 
             if(resource === 'students') {
+                data.sort( (stuA, stuB) => {
+                    if(stuA.name > stuB.name) return 1
+                    if(stuA.name < stuB.name) return -1
+                    return 0
+                })
                 setStudents(data)
             }
             else if(resource === 'activities') {
