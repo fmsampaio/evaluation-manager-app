@@ -99,6 +99,11 @@ function EvaluationViewPage() {
                 }
                 evaluationsForTable.push(tableRowInfo)
             })
+            evaluationsForTable.sort( (elemA, elemB) => {
+                if(elemA.student.name < elemB.student.name) return -1
+                if(elemA.student.name > elemB.student.name) return 1
+                return 0
+            } )
             setEvaluationsTableInfo(evaluationsForTable)
         })
     }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Table, Modal, Button } from "react-bootstrap"
+import { Table, Modal, Button, Form } from "react-bootstrap"
 import styles from './EvaluationViewTable.module.css'
 
 function CommentsModal(props) {
@@ -85,6 +85,7 @@ function EvaluationViewTable( {activity, tableInfo}  ) {
 
     return (
         <div className={styles.container}>
+            <Form.Label><strong>Número de estudantes:</strong> {tableInfo.length}</Form.Label>
             <Table bordered striped>
                 <thead className="thead-dark">
                     <tr>
