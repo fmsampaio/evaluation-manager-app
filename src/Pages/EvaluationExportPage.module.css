@@ -12,6 +12,12 @@
 
 .report_container {
     margin-top: 20px;
-    width: 60%;
+    width: 45%;
     align-self: center;
+}
+
+.student_info_container {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14pt;
 }

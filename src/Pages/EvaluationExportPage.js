@@ -12,6 +12,7 @@ function EvaluationExportPage() {
     const [selectedStudent, setSelectedStudent] = useState({})
 
     const BASE_API_URL = 'http://localhost:5000/'
+    var evalIndex = 1
 
     useEffect( () => {
         list('students')
@@ -59,13 +60,15 @@ function EvaluationExportPage() {
         var activity = activities.filter( (act) => act.id === evaluation.activity_id )[0]
 
         return (
-            
+            <>
+                <h3>Avaliação #{evalIndex++}</h3>
                 <ActivityDescription
                     activity={activity}
                     grades={evaluation.grades}
                     includesGrade={true}
                     comments={evaluation.comments}
                 />
+            </>
         )
     }
 
@@ -84,7 +87,13 @@ function EvaluationExportPage() {
                 }
                 {
                     isSelectedStudent &&
+                    <>
+                        <div className={styles.student_info_container}>
+                            <p><strong>Estudante:</strong><br/>{selectedStudent.name}</p>
+                            <p><strong>Matrícula:</strong><br/>{selectedStudent.code}</p>
+                        </div>
                         <div className={styles.report_container}>
+                            
                             {selectedStudent.evaluations.length === 0 
                                 ?
                                     <p><strong>Não foram encontradas avaliações realizadas para este estudante!</strong></p>
@@ -94,6 +103,7 @@ function EvaluationExportPage() {
                                     ))
                             }
                         </div>
+                    </>
                 }
 
             </div>
